@@ -3,15 +3,15 @@ bundle:
   name: medium_post_report
 
 workspace:
-  host: https://e2-dogfood.staging.cloud.databricks.com/
+  host: https://e2-demo-field-eng.cloud.databricks.com/
 
 resources:
 
   pipelines:
     # Our DLT pipeline
     medium_metrics_pipeline:
-      name: "[${bundle.environment}] FE Medium Metrics Pipeline"
-      target: "medium_post_report_${bundle.environment}"
+      name: "[${bundle.environment}] FE Medium Metrics Pipeline CK"
+      target: "medium_post_report_ck${bundle.environment}"
       libraries:
         - file:
             path: ./ingest.py
@@ -24,7 +24,7 @@ resources:
   jobs:
     # A two-task Databricks Workflow - dlt + notebook report
     fe_medium_metrics:
-      name: "[${bundle.environment}] Metrics for FE Medium Posts"
+      name: "[${bundle.environment}] Metrics for FE Medium Posts CK"
       tasks:
         - task_key: dlt_medium_pipeline
           pipeline_task:
@@ -51,7 +51,7 @@ environments:
 
   qa: # This environment is when deploying test runs from a pull request on GitHub.
     workspace:
-      host: https://e2-demo-west.cloud.databricks.com/
+      host: https://e2-demo-field-eng.cloud.databricks.com/
     resources:
       pipelines:
         medium_metrics_pipeline:
@@ -62,7 +62,7 @@ environments:
 
   production:
     workspace:
-      host: https://e2-demo-west.cloud.databricks.com/
+      host: https://e2-demo-field-eng.cloud.databricks.com/
     resources:
       pipelines:
         medium_metrics_pipeline:
